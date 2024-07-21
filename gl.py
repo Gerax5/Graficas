@@ -11,6 +11,10 @@ def dword(d):
     #4
     return struct.pack("=l",d)
 
+POINTS = 0
+LINES = 1
+TRIANGLES = 2
+
 class Render(object):
     def __init__(self, screen):
         self.screen = screen
@@ -19,6 +23,12 @@ class Render(object):
         self.glColor(1,1,1)
         self.glClearColor(0,0,0)
         self.glClear()
+
+        self.vertexShader=None
+
+        self.primitiveTypes = LINES
+        
+        self.models =[]
 
     def glColor(self, r, g, b):
         r = min(1, max(0, r))
@@ -60,7 +70,7 @@ class Render(object):
         # Algoritmo de Lineas de Bresenham
 
         #Si el punto 0 es igual punto 1, solo se dibuja un punto
-        if x1 == 1 and yo == y1:
+        if xo == x1 and yo == y1:
             self.glPoint(xo,yo)
             return
         
@@ -177,5 +187,85 @@ class Render(object):
         #self.boundaryfill(x - 1, y, fillColor, boundaryColor)
         #self.boundaryfill(x, y + 1, fillColor, boundaryColor)
         #self.boundaryfill(x, y - 1, fillColor, boundaryColor)
+
+    def glRender(self):
+        
+        for model in self.models: 
+            #por cada modelo en la list, los dibujo
+            # agarrar su matriz modelo 
+            mMat  = model.GetModelMatrix()
+
+            vertexBuffer = []
+            #en el modelo hay que agarrar las caras y los vertices
+            #por cada cara del modelo
+            for face in model.faces: 
+                # revisamos cuntos vertices tiene la cara
+                #cuatro vertices, hay que crear un segundo triangulo
+                vertCount = len(face)
+                #obtenemos los vertices de la cara actual 
+                v0 = model.vertices[face[0][0] - 1] #-1 porque en el obj los indices empiezan en 1
+                v1 = model.vertices[face[1][0] - 1]
+                v2 = model.vertices[face[2][0] - 1]
+                
+                if vertCount == 4:
+                    v3 = model.vertices[face[3][0]-1]
+
+                if self.vertexShader:
+                    v0 = self.vertexShader(v0, modelMatrix = mMat)
+                    v1 = self.vertexShader(v1, modelMatrix = mMat)
+                    v2 = self.vertexShader(v2, modelMatrix = mMat)
+                    if vertCount==4:
+                        v3 = self.vertexShader(v3, modelMatrix = mMat)
+                
+                #dibujar la cara
+                #self.glPoint(int(v0[0]),int(v0[1])) #x,y
+                #self.glPoint(int(v1[0]),int(v1[1]))
+                #self.glPoint(int(v2[0]),int(v2[1]))
+                #if vertCount == 4:
+                #    self.glPoint(int(v3[0]),int(v3[1]))
+                    
+                # self.glLine((v0[0],v0[1]), (v1[0],v1[1]))
+                # self.glLine((v1[0],v1[1]), (v2[0],v2[1]))
+                # self.glLine((v2[0],v2[1]), (v0[0],v0[1]))
+                # if vertCount == 4: 
+                #     self.glLine((v0[0],v0[1]), (v2[0],v2[1]))
+                #     self.glLine((v2[0],v2[1]), (v3[0],v3[1]))
+                #     self.glLine((v3[0], v3[1]), (v0[0],v0[1]))
+                
+                vertexBuffer.append(v0)
+                vertexBuffer.append(v1)
+                vertexBuffer.append(v2)
+
+                if vertCount == 4:
+                    vertexBuffer.append(v0)
+                    vertexBuffer.append(v2)
+                    vertexBuffer.append(v3)
+
+            self.glDrawPRimitives(vertexBuffer)
+
+                #     vertexBuffer.append(v0)
+                #     vertexBuffer.append(v1)
+                #     vertexBuffer.append(v2)
+                #     if vertCount == 4:
+                #         vertexBuffer.append(v3)
+
+
+    def glDrawPRimitives(self, buffer):
+
+        if self.primitiveTypes == POINTS:
+            for point in buffer:
+                self.glPoint(int(point[0]), int(point[1]))
+        elif self.primitiveTypes == LINES:
+            for i in range(0, len(buffer), 3):
+                p0 = buffer[i]
+                p1 = buffer[i + 1]
+                p2 = buffer[i + 2]
+
+                self.glLine((p0[0], p0[1]), (p1[0], p1[1]) )
+                self.glLine((p1[0], p1[1]), (p2[0], p2[1]) )
+                self.glLine((p2[0], p2[1]), (p0[0], p0[1]) )
+    
+
+
         
         

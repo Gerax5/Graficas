@@ -28,7 +28,11 @@ class Obj(object):
                 self.normals.append(list(map(float, value.split(" "))))
             elif prefix == "f":
                 #
-                self.faces.append([list(map(int, vert.split("/"))) for vert in value.split(" ")])
+                 self.faces.append([
+                        [int(x) if x else None for x in vert.split("/")]
+                        for vert in line.strip().split()[1:]
+                    ])
+                
                 # face = []
                 # verts = value.split(" ")
                 # for vert in verts:
