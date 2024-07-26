@@ -20,9 +20,11 @@ rend.vertexShader = vertexShader
 #modelo1 = Model("laqueteengana.obj")
 
 ##############Configuracion del 1
-modelo1 = Model("Ship.obj")
-modelo1.translate[0] = width/2
-modelo1.translate[1] =height/2 - 170
+modelo1 = Model("face.obj")
+modelo1.translate[2] = -10
+modelo1.scale[0] = 0.1
+modelo1.scale[1] = 0.1
+modelo1.scale[2] = 0.1
 
 ##############Configuracion del 2
 #modelo1.translate[1] =height/2 - 70
@@ -31,9 +33,7 @@ modelo1.translate[1] =height/2 - 170
 # modelo1.scale[2]=2
 
 #Configuracion del 1
-modelo1.scale[0]=50
-modelo1.scale[1]=50
-modelo1.scale[2]=50
+
 
 
 rend.models.append(modelo1)
@@ -73,13 +73,17 @@ while isRunning:
             elif event.key == pygame.K_2:
                 rend.primitiveTypes = LINES
             elif event.key == pygame.K_RIGHT:
-                modelo1.rotate[1] += 10
+                #modelo1.rotate[1] += 10
+                rend.camera.translate[0] += 1
             elif event.key == pygame.K_LEFT:
-                modelo1.rotate[1] -= 10
+                #modelo1.rotate[1] -= 10
+                rend.camera.translate[0] -= 1
             elif event.key == pygame.K_UP:
-                modelo1.rotate[0] += 10
+                #modelo1.rotate[0] += 10
+                rend.camera.translate[1] += 1
             elif event.key == pygame.K_DOWN:
-                modelo1.rotate[0] -= 10
+                #modelo1.rotate[0] -= 10
+                rend.camera.translate[1] -= 1
             elif event.key == pygame.K_m:
                 modelo1.rotate[2] +=10
             elif event.key == pygame.K_n:
@@ -101,7 +105,7 @@ while isRunning:
     # poligono(poligono5, fill=False)
     # poligono(poligono4)
 
-    rend.glRender()
+    #rend.glRender()
 
     pygame.display.flip()
     clock.tick(60)

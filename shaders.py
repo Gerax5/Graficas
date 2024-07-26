@@ -3,10 +3,19 @@ def vertexShader(vertex, **kwargs): #** = argumentos
     #se lleva a cabo por cada vertice
     #se va a encargar de transformar los vertices
     modelMatrix = kwargs["modelMatrix"]
+    viewMatrix = kwargs["viewMatrix"]
+    projectionMatrix = kwargs["projectionMatrix"]
+    viewportMatrix = kwargs["viewpostMatrix"]
     
     vt = [vertex[0], vertex[1], vertex[2], 1]
 
-    vt = multiplyMatrixVector(modelMatrix, vt)
+    vt = multiplyMatrixVector(
+            multiplyMatrixMatrix(
+                multiplyMatrixMatrix(
+                    multiplyMatrixMatrix(viewportMatrix, projectionMatrix)
+                                        , viewMatrix)
+                                        , modelMatrix)
+                                        , vt)
     
     #vt = modelMatrix @ vt
 
