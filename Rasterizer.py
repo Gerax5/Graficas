@@ -6,8 +6,10 @@ from shaders import vertexShader
 
 width = 960
 height = 540
+#width = 200
+#height =200
 
-screen = pygame.display.set_mode((width, height))
+screen = pygame.display.set_mode((width, height), pygame.SCALED)
 clock = pygame.time.Clock()
 
 rend = Render(screen)
@@ -20,11 +22,11 @@ rend.vertexShader = vertexShader
 #modelo1 = Model("laqueteengana.obj")
 
 ##############Configuracion del 1
-modelo1 = Model("face.obj")
-modelo1.translate[2] = -10
-modelo1.scale[0] = 0.1
-modelo1.scale[1] = 0.1
-modelo1.scale[2] = 0.1
+modelo1 = Model("OBJ/SHREK!.obj")
+modelo1.translate[2] = -15
+modelo1.scale[0] = 1
+modelo1.scale[1] = 1
+modelo1.scale[2] = 1
 
 ##############Configuracion del 2
 #modelo1.translate[1] =height/2 - 70
@@ -59,6 +61,22 @@ def poligono(listaPoligono, fillColor = None, fill = True):
     if fill:
         rend.boundaryfill(cx, cy, fillColor=fillColor)
 
+
+# triangle1 = [[10,80],[50,160],[70,80]]
+# triangle2 = [[180, 50],[150, 1],[70,180]]
+# triangle3 = [[180,120],[120,160],[150,160]]
+
+def resetVariables():
+    rend.camera.rotate[0] = 0
+    rend.camera.rotate[1] = 0
+    rend.camera.rotate[2] = 0
+    rend.camera.translate[1] = 0
+    rend.camera.translate[0] = 0
+    rend.camera.translate[2] = 0
+
+cont = 0
+photos = []
+
 isRunning = True
 while isRunning:
 
@@ -85,9 +103,46 @@ while isRunning:
                 #modelo1.rotate[0] -= 10
                 rend.camera.translate[1] -= 1
             elif event.key == pygame.K_m:
-                modelo1.rotate[2] +=10
+                #modelo1.rotate[2] +=10
+                rend.camera.translate[2] += 1
             elif event.key == pygame.K_n:
-                modelo1.rotate[2] -= 10
+                #modelo1.rotate[2] -= 10
+                rend.camera.translate[2] -= 1
+            elif event.key == pygame.K_3:
+                rend.primitiveTypes = TRIANGLES
+            elif event.key == pygame.K_4:
+                rend.camera.rotate[0] += 5
+            elif event.key == pygame.K_5:
+                resetVariables()
+                rend.camera.translate[1] = 1.55
+                rend.camera.translate[0] = 0
+                rend.camera.translate[2] = -14
+            elif event.key == pygame.K_6:
+                resetVariables()
+                rend.camera.translate[1] = 1
+                rend.camera.translate[0] = 0
+                rend.camera.translate[2] = -14
+                rend.camera.rotate[0] += 20
+            elif event.key == pygame.K_7:
+                resetVariables()
+                rend.camera.translate[1] = 3
+                rend.camera.translate[0] = 0
+                rend.camera.translate[2] = -13
+                rend.camera.rotate[0] -= 35
+            elif event.key == pygame.K_8:
+                resetVariables()
+                rend.camera.translate[1] = 1.5
+                rend.camera.translate[0] = 0
+                rend.camera.translate[2] = -13
+                rend.camera.rotate[2] = -10
+            elif event.key == pygame.K_KP_PLUS:
+                rend.camera.rotate[2] += 5
+            elif event.key == pygame.K_KP_MULTIPLY:
+                rend.camera.rotate[2] -= 5
+            elif event.key == pygame.K_p:
+                file = f"BMP/output{cont}.bmp"
+                rend.glGenerateFrameBuffer(file)
+                cont+=1
 
     rend.glClear()
 
@@ -105,12 +160,15 @@ while isRunning:
     # poligono(poligono5, fill=False)
     # poligono(poligono4)
 
-    #rend.glRender()
+    rend.glRender()
+    # rend.glTriangle(triangle1[0], triangle1[1], triangle1[2])
+    # rend.glTriangle(triangle2[0], triangle2[1], triangle2[2])
+    # rend.glTriangle(triangle3[0], triangle3[1], triangle3[2])
 
     pygame.display.flip()
     clock.tick(60)
 
-rend.glGenerateFrameBuffer("output.bmp")
+#rend.glGenerateFrameBuffer("output.bmp")
 
 pygame.quit()
 
