@@ -20,8 +20,19 @@ puntoA = [50, 50, 0]
 puntoB = [250, 500, 0]
 puntoC = [500, 50, 0]
 
-modelo1 = Model("OBJ/SHREK!.obj")
-#modelo1.LoadTexture("texture/shre.bmp")
+#Modelo Shrek
+# modelo1 = Model("OBJ/Shrek.obj")
+# modelo1.LoadTexture("texture/sss.bmp")
+
+# modelo1.translate[2] = -0.3
+# modelo1.translate[1] = -0.1
+# modelo1.scale[0] = 0.03
+# modelo1.scale[1] = 0.03
+# modelo1.scale[2] = 0.03
+
+# Modelo Wol
+modelo1 = Model("OBJ/wol.obj")
+modelo1.LoadTexture("texture/wol.bmp")
 
 modelo1.translate[2] = -0.3
 modelo1.translate[1] = -0.1
@@ -30,7 +41,6 @@ modelo1.scale[1] = 0.1
 modelo1.scale[2] = 0.1
 
 rend.models.append(modelo1)
-
 
 isRunning = True
 while isRunning:
@@ -50,8 +60,6 @@ while isRunning:
 				
 			elif event.key == pygame.K_3:
 				rend.primitiveType = TRIANGLES
-				
-
 			elif event.key == pygame.K_RIGHT:
 				rend.camera.translate[0] += 1
 			elif event.key == pygame.K_LEFT:
@@ -60,6 +68,8 @@ while isRunning:
 				rend.camera.translate[1] += 1
 			elif event.key == pygame.K_DOWN:
 				rend.camera.translate[1] -= 1
+			elif event.key == pygame.K_p:
+				rend.glGenerateFrameBuffer("BMP/wol.bmp")
 				
 					
 	rend.glClear()

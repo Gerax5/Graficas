@@ -1,6 +1,5 @@
 import struct
 from camera import Camera
-import numpy as np
 from math import tan, pi, isclose
 from Mathlib import barycentricCoords
 
