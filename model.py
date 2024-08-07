@@ -1,15 +1,23 @@
 #aqui se va a guardar la informacion 
 from obj import Obj
 from Mathlib import *
+from texture import Texture
 class Model(object):
     def __init__(self, filename):
         objFile = Obj(filename)
+        
         self.vertices = objFile.vertices
+        self.texCoords = objFile.texcoords
         self.faces = objFile.faces
+
         self.translate = [0,0,0]
         self.rotate = [0,0,0]
         self.scale  = [1,1,1]
+
+        self.texture = None
         
+    def LoadTexture(self, filename):
+        self.texture = Texture(filename)
 
     def GetModelMatrix(self):
         traslateMat = TranslationMatrix(self.translate[0],
