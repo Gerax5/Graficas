@@ -149,3 +149,18 @@ def RotationMatrixX(pitch, yaw, roll):
    
    #return pitchMat * yawMat * rollMat
    return multiplyMatrixMatrix(multiplyMatrixMatrix(pitchMat, yawMat), rollMat)
+
+
+def dotProduct(vector1, vector2):
+    if len(vector1) != len(vector2):
+        raise ValueError("Los vectores deben tener la misma dimensión.")
+    return sum(x * y for x, y in zip(vector1, vector2))
+
+def crossProduct(vector1, vector2):
+    if len(vector1) != 3 or len(vector2) != 3:
+        raise ValueError("Ambos vectores deben ser de dimensión 3.")
+    return [
+        vector1[1] * vector2[2] - vector1[2] * vector2[1],
+        vector1[2] * vector2[0] - vector1[0] * vector2[2],
+        vector1[0] * vector2[1] - vector1[1] * vector2[0]
+    ]
