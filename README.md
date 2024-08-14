@@ -1,4 +1,9 @@
+# Laboratorio 4
+* Gerardo Pineda 22880
 
+# BMP
+Mi army de shreks crece cada vez mas
+<img src="https://github.com/Gerax5/Graficas/blob/lab005/BMP/army.bmp" />
 
 Preguntas a bing:  
 ![image](https://github.com/user-attachments/assets/d01ae77e-6a3a-43ae-9398-2553677e03de)
