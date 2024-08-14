@@ -5,6 +5,12 @@
 Mi army de shreks crece cada vez mas
 <img src="https://github.com/Gerax5/Graficas/blob/lab005/BMP/army.bmp" />
 
+## Shaders usados
+* wireframeShader
+* hologramShader (intento de, no me salio pero me gusto mi intento)
+* fireShader (que no es fire y le cambie los colores jajaja)
+* dissolveShader  
+
 Preguntas a bing:  
 ![image](https://github.com/user-attachments/assets/d01ae77e-6a3a-43ae-9398-2553677e03de)
 ![image](https://github.com/user-attachments/assets/2c512329-060a-48e0-a8e5-c84497c994e1)
