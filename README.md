@@ -2,7 +2,7 @@
 * Gerardo Pineda 22880
 
 # BMP
-Mi army de shreks crece cada vez mas
+Mi army de shreks crece cada vez mas y mi compu aguanta cada vez menos jajaj
 <img src="https://github.com/Gerax5/Graficas/blob/lab005/BMP/army.bmp" />
 
 ## Shaders usados
