@@ -6,6 +6,7 @@ Mi army de shreks crece cada vez mas
 <img src="https://github.com/Gerax5/Graficas/blob/lab005/BMP/army.bmp" />
 
 ## Shaders usados
+* pixelationShader
 * wireframeShader
 * hologramShader (intento de, no me salio pero me gusto mi intento)
 * fireShader (que no es fire y le cambie los colores jajaja)
