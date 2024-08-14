@@ -21,3 +21,6 @@ Preguntas a bing:
 use bing para preguntar y chat para preguntar el codigo  
 
 mi chat: https://chatgpt.com/share/6bbf98f8-1fc7-4f15-a04a-18dd9e01d9d4
+
+la mayoria de ayudas la verdad que fueron solo la logica de como funcionaban o se supone que deberian de funcionar,  
+solo en una pregunta si pregunte directamente de codigo que no me estaba funcionando
