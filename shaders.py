@@ -803,4 +803,70 @@ def hologramShader(**kwargs):
     return [r, g, b]
 
 
+def gourad2Shader(**kwargs):
+    # Se lleva a cabo por cada pixel individual
+    
+    # Obtenemos la informacion requerida
+    A, B, C = kwargs["verts"]
+    u, v, w = kwargs["bCoords"]
+    texture = kwargs["texture"]
+    dirLight = kwargs["dirLight"]
+    modelMatrix = kwargs["modelMatrix"]
+
+    # Sabiendo que las coordenadas de textura
+    # estan en la 4ta y 5ta posicion de cada
+    # indice del vertice, los obtenemos y
+    # y guardamos
+
+    vtA = [A[3], A[4]]
+    vtB = [B[3], B[4]]
+    vtC = [C[3], C[4]]
+
+    # Sabiendo que los valores de las normales
+    # estan en la 7ta, 7ma, 8va posicion
+    # de cada vertice los obtenemos y guardamos
+
+    nA = [A[5], A[6], A[7]]
+    nB = [B[5], B[6], A[7]]
+    nC = [C[5], C[6], A[7]]
+
+    normal = [  u * nA[0] + v * nB[0] + w * nC[0],
+                u * nA[1] + v * nB[1] + w * nC[1],
+                u * nA[2] + v * nB[2] + w * nC[2],
+                0]
+    
+    normal = multiplyMatrixVector(modelMatrix,normal)
+    normal = [normal[0], normal[1], normal[2]]
+    normal = normalizeVector(normal)
+        
+    # Empezamos siempre con color blanco
+    r = 1
+    g = 1
+    b = 1
+
+    # P = uA + vB + wC
+    vtP = [u * vtA[0] + v * vtB[0] + w * vtC[0],
+           u * vtA[1] + v * vtB[1] + w * vtC[1]]
+    
+    if texture:
+        texColor = texture.getColor(vtP[0], vtP[1])
+
+        if texColor == None:
+            return [r,g,b]
+
+        r *= texColor[0]
+        g *= texColor[1]
+        b *= texColor[2]
+    
+    # intensity = normal DOT -dirLight
+    dirLightNegative = [-x for x in dirLight]
+
+    intensity = dotProduct(normal, dirLightNegative)
+    intensity = max(0, intensity)
+    r *= intensity
+    g *= intensity
+    b *= intensity
+        
+    # Se regresa el color
+    return [r,g,b]
 

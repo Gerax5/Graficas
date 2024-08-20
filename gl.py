@@ -2,6 +2,7 @@
 from camera import Camera
 from math import tan, pi, isclose
 from Mathlib import barycentricCoords
+from texture import Texture
 
 def char(c):
 	# 1 byte
@@ -47,6 +48,8 @@ class Render(object):
 		self.primitiveType = TRIANGLES
 		
 		self.models = []
+
+		self.background = None
 
 
 	def glViewport(self, x, y, width, height):
@@ -409,6 +412,10 @@ class Render(object):
 		if z >= self.zbuffer[x][y]:
 			return 
 		
+		# Si el valor en z para antes del punto no esta en -1 y 1, se puede descartar
+		if z < -1 or z > 1:
+			return
+		
 		self.zbuffer[x][y] = z
 
 		# Si contamos un Fragment Shader, obtener el color de ah�
@@ -481,3 +488,23 @@ class Render(object):
 				
 				#self.glTriangle_std(A, B, C)
 				self.glTraingle_bc(A, B, C)
+
+	def glClearBackground(self):
+		if self.background == None:
+			return
+		
+		for x in range(self.vpX, self.vpX + self.vpWidth + 1):
+			for y in range(self.vpY, self.vpY + self.vpHeight + 1):
+				
+				tU = (x - self.vpX) / self.vpWidth
+				tV = (y - self.vpY)/ (self.vpHeight)
+
+				texColor = self.background.getColor(tU, tV)
+
+				if texColor:
+					self.glPoint(x, y, texColor)
+
+
+
+	def glLoadBackground(self, filename):
+		self.background = Texture(filename)
